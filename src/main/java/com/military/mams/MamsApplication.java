@@ -28,14 +28,6 @@ public class MamsApplication {
             System.setProperty("spring.datasource.driver-class-name", "org.h2.Driver");
         }
 
-        // Sanitize PORT environment variable (strip any quotes, non-digits)
-        String portEnv = System.getenv("PORT");
-        if (portEnv != null) {
-            String cleanPort = portEnv.replaceAll("[^0-9]", "");
-            if (!cleanPort.isEmpty()) {
-                System.setProperty("server.port", cleanPort);
-            }
-        }
         System.out.println("==================================================");
 
         try {
