@@ -11,10 +11,13 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
+# Create temp directory with full permissions for Tomcat embedded engine
+RUN mkdir -p /tmp && chmod 777 /tmp
+
 COPY --from=build /app/target/*.jar app.jar
 
 ENV PORT=8080
 ENV SPRING_PROFILES_ACTIVE=h2
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-Djava.io.tmpdir=/tmp", "-jar", "app.jar"]
